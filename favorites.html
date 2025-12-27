@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的常用 | 夢幻工具庫</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        /* 字體設定 */
+        .font-serif-display {
+            font-family: 'Playfair Display', serif;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* 背景與特效 */
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(14, 165, 233, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(14, 165, 233, 0.03) 1px, transparent 1px);
+            background-attachment: fixed;
+        }
+
+        .aurora-blob {
+            position: fixed;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: float-aurora 15s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes float-aurora {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+        }
+
+        /* 卡片樣式 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 20px 0 rgba(14, 165, 233, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: #7dd3fc;
+        }
+
+        .img-wrapper {
+            overflow: hidden;
+            border-radius: 1rem;
+            background: #f0f9ff;
+        }
+
+        .resource-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 動畫與互動 */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-spin-slow {
+            animation: spin 10s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 彈窗動畫 */
+        .modal-enter {
+            animation: modalIn 0.3s ease-out forwards;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-700 min-h-screen bg-grid-pattern selection:bg-sky-200">
+
+    <!-- 極光背景 -->
+    <div class="aurora-blob w-[500px] h-[500px] rounded-full bg-sky-300 top-[-10%] left-[-10%] mix-blend-multiply">
+    </div>
+    <div
+        class="aurora-blob w-[600px] h-[600px] rounded-full bg-blue-200 bottom-[-10%] right-[-20%] mix-blend-multiply animation-delay-2000">
+    </div>
+    <div
+        class="aurora-blob w-[400px] h-[400px] rounded-full bg-cyan-200 top-[20%] right-[10%] mix-blend-multiply animation-delay-4000">
+    </div>
+
+    <!-- 導航列 -->
+    <nav class="sticky top-0 z-50 bg-white/60 backdrop-blur-xl border-b border-white/40">
+        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 bg-gradient-to-tr from-sky-400 to-blue-500 rounded-xl flex items-center justify-center text-white shadow-lg rotate-3">
+                    <i data-lucide="cloud" class="w-5 h-5"></i>
+                </div>
+                <span class="font-serif-display font-bold text-2xl text-slate-800">My Collection</span>
+            </div>
+            <div class="hidden md:flex items-center gap-6 font-medium text-sm text-slate-500">
+                <a href="index.html" class="hover:text-sky-500 transition-colors">精選作品</a>
+                <a href="favorites.html" class="text-sky-600 font-bold">我的常用</a>
+                <a href="toolbox.html" class="hover:text-sky-500 transition-colors">工具箱</a>
+                <a href="notes.html" class="hover:text-sky-500 transition-colors">靈感筆記</a>
+                <a href="game.html" class="hover:text-sky-500 transition-colors">小遊戲</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero 區塊 + 音樂播放器 -->
+    <header class="max-w-6xl mx-auto px-4 py-12 sm:px-6 lg:px-8 text-center sm:text-left relative fade-in">
+        <div class="flex justify-between items-end">
+            <div>
+                <h1 class="text-4xl sm:text-6xl font-serif-display font-medium text-slate-800 mb-4 leading-[1.1]">
+                    My <br />
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-500 italic pr-4">
+                        Favorites
+                    </span>
+                </h1>
+                <p class="text-slate-500 text-sm mt-1 max-w-md">工作、學習與娛樂的捷徑。</p>
+            </div>
+
+            <!-- 音樂唱片機 -->
+            <div class="hidden lg:block relative z-20">
+                <div id="record-player"
+                    class="relative w-48 h-48 group cursor-pointer transition-transform duration-500 hover:scale-[1.02]"
+                    onclick="toggleMusic()">
+                    <div id="vinyl"
+                        class="w-full h-full rounded-full border border-white/30 bg-gradient-to-br from-white/40 to-white/10 backdrop-blur-2xl shadow-[0_20px_50px_-12px_rgba(56,189,248,0.5)] flex items-center justify-center relative overflow-hidden transition-all duration-700">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-tr from-sky-200/30 via-transparent to-blue-200/30 opacity-80">
+                        </div>
+                        <div class="absolute inset-3 rounded-full border border-white/20"></div>
+                        <div class="absolute inset-8 rounded-full border border-white/20"></div>
+                        <div class="absolute inset-14 rounded-full border border-white/20"></div>
+                        <div
+                            class="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center shadow-lg z-10 border border-white">
+                            <span class="font-serif-display italic text-sky-400 text-[10px] tracking-widest">Play</span>
+                        </div>
+                    </div>
+                    <div id="play-icon"
+                        class="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300">
+                        <div
+                            class="bg-white rounded-full p-3 shadow-xl shadow-sky-200/50 backdrop-blur-sm animate-pulse text-sky-500">
+                            <i data-lucide="play" class="w-5 h-5 fill-current ml-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <p id="music-status" class="text-[10px] font-bold text-slate-400 tracking-[0.2em] uppercase">Click
+                        to Play</p>
+                </div>
+            </div>
+        </div>
+        <audio id="bg-audio" loop>
+            <source
+                src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112762.mp3"
+                type="audio/mpeg">
+        </audio>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-12 fade-in">
+
+        <!-- 頂部操作區 -->
+        <div class="flex justify-end mb-6">
+            <button onclick="openModal()"
+                class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-sky-500 hover:bg-sky-600 text-white text-sm font-bold transition-all shadow-lg shadow-sky-200">
+                <i data-lucide="plus" class="w-4 h-4"></i> 新增常用連結
+            </button>
+        </div>
+
+        <!-- 內容容器 (JS 生成) -->
+        <div id="favorites-sections" class="space-y-12"></div>
+
+    </main>
+
+    <footer
+        class="border-t border-white/40 bg-white/20 backdrop-blur-md py-12 text-center text-slate-400 text-sm font-serif-display italic relative z-10">
+        <p>© 2025 My Bookmarks. Designed with <i data-lucide="heart" class="inline w-3 h-3 text-sky-300"></i></p>
+    </footer>
+
+    <!-- 新增連結彈窗 -->
+    <div id="add-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/20 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+        <div class="glass-card w-full max-w-md p-6 rounded-3xl relative modal-enter transform transition-all">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i
+                    data-lucide="x" class="w-5 h-5"></i></button>
+            <h3 class="text-xl font-bold text-slate-800 mb-1">新增常用連結</h3>
+            <p class="text-sm text-slate-500 mb-5">資料將儲存在此瀏覽器中。</p>
+
+            <form id="add-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">標題</label>
+                    <input type="text" id="item-title" required
+                        class="w-full bg-white/50 border border-white/60 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">描述</label>
+                    <input type="text" id="item-desc"
+                        class="w-full bg-white/50 border border-white/60 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">分類</label>
+                    <select id="item-category"
+                        class="w-full bg-white/50 border border-white/60 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300 appearance-none">
+                        <option value="工作專區">工作專區</option>
+                        <option value="追星娛樂">追星娛樂</option>
+                        <option value="學校生活">學校生活</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">網址</label>
+                    <input type="url" id="item-url" required
+                        class="w-full bg-white/50 border border-white/60 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300"
+                        placeholder="https://...">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">圖片網址
+                        (選填)</label>
+                    <input type="url" id="item-image"
+                        class="w-full bg-white/50 border border-white/60 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300"
+                        placeholder="https://...">
+                </div>
+                <button type="submit"
+                    class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-xl shadow-lg shadow-sky-200 transition-all mt-2">
+                    確認新增
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const placeholderImg = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop";
+        const favoriteCategories = ["工作專區", "追星娛樂", "學校生活"];
+
+        // 靜態預設資料 (已補上 description)
+        const staticFavorites = [
+            { title: "蝦皮賣家中心", description: "管理賣場訂單、商品上架與行銷。", url: "https://seller.shopee.tw/portal/product/list/live/all", category: "工作專區", image: placeholderImg },
+            { title: "Shopee 蝦皮", description: "線上購物前台，瀏覽商品。", url: "https://shopee.tw/", category: "工作專區", image: placeholderImg },
+            { title: "Kris 克里酥", description: "個人品牌官方網站。", url: "https://www.krisroll.com/", category: "工作專區", image: placeholderImg },
+            { title: "Line Creators", description: "Line 貼圖上架與管理後台。", url: "https://creator.line.me/", category: "工作專區", image: placeholderImg },
+
+            { title: "Bilibili", description: "知名的彈幕影片分享網站。", url: "https://www.bilibili.com/", category: "追星娛樂", image: placeholderImg },
+            { title: "YouTube", description: "全球最大的影片分享平台。", url: "https://www.youtube.com/", category: "追星娛樂", image: placeholderImg },
+            { title: "Weverse", description: "全球粉絲社群互動平台。", url: "https://weverse.io/", category: "追星娛樂", image: placeholderImg },
+            { title: "POKI 遊戲", description: "免費線上小遊戲平台。", url: "https://poki.com/zh", category: "追星娛樂", image: placeholderImg },
+
+            { title: "朝陽 TronClass", description: "學校數位教學與課程平台。", url: "https://tronclass.cyut.edu.tw/", category: "學校生活", image: placeholderImg },
+            { title: "Gmail", description: "Google 電子郵件服務。", url: "https://mail.google.com/", category: "學校生活", image: placeholderImg },
+            { title: "WhatIsMyIP", description: "查詢目前的 IP 位址。", url: "https://www.whatismyip.com.tw/en/", category: "學校生活", image: placeholderImg },
+            { title: "AdGuard Temp Mail", description: "免費的臨時電子郵件服務。", url: "https://adguard.com/zh_tw/adguard-temp-mail/overview.html?authuser=0", category: "學校生活", image: placeholderImg }
+        ];
+
+        let allItems = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            lucide.createIcons();
+        });
+
+        function loadData() {
+            // 讀取 LocalStorage (使用者新增的)
+            const localData = JSON.parse(localStorage.getItem('my_custom_favorites') || '[]');
+            // 合併：新增加的放前面 + 預設的放後面
+            allItems = [...localData, ...staticFavorites];
+            renderFavorites();
+        }
+
+        function renderFavorites() {
+            const container = document.getElementById('favorites-sections');
+            container.innerHTML = '';
+
+            favoriteCategories.forEach(cat => {
+                const items = allItems.filter(item => item.category === cat);
+                if (items.length === 0) return;
+
+                const section = document.createElement('div');
+                section.innerHTML = `
+                    <div class="flex items-center gap-3 mb-5">
+                        <h3 class="text-xl font-bold text-slate-800">${cat}</h3>
+                        <div class="h-px flex-1 bg-gradient-to-r from-sky-200 to-transparent"></div>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
+                        ${items.map(item => createCardHTML(item)).join('')}
+                    </div>
+                `;
+                container.appendChild(section);
+            });
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function createCardHTML(item) {
+            const isCustom = item.isCustom;
+            // 刪除按鈕 (僅自定義項目有)
+            const deleteBtn = isCustom ?
+                `<button onclick="deleteItem('${item.url}'); event.preventDefault();" class="absolute top-1 right-1 z-20 bg-red-500/80 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"><i data-lucide="trash" class="w-3 h-3"></i></button>` : '';
+
+            return `
+                <a href="${item.url}" target="_blank" class="glass-card rounded-2xl p-4 block text-center group relative hover:shadow-lg">
+                    ${deleteBtn}
+                    <div class="img-wrapper aspect-square mb-3 shadow-inner">
+                        <img src="${item.image || placeholderImg}" class="resource-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <h4 class="font-bold text-slate-700 text-sm group-hover:text-sky-600 truncate">${item.title}</h4>
+                    <p class="text-[10px] text-slate-400 mt-1 line-clamp-1">${item.description || ''}</p>
+                </a>
+            `;
+        }
+
+        // --- 互動功能 ---
+
+        function openModal() {
+            document.getElementById('add-modal').classList.remove('hidden');
+            document.getElementById('add-form').reset();
+        }
+
+        function closeModal() {
+            document.getElementById('add-modal').classList.add('hidden');
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const newItem = {
+                title: document.getElementById('item-title').value,
+                description: document.getElementById('item-desc').value, // 讀取描述
+                category: document.getElementById('item-category').value,
+                url: document.getElementById('item-url').value,
+                image: document.getElementById('item-image').value,
+                isCustom: true, // 標記為自定義
+                id: Date.now()
+            };
+
+            const localData = JSON.parse(localStorage.getItem('my_custom_favorites') || '[]');
+            localData.unshift(newItem);
+            localStorage.setItem('my_custom_favorites', JSON.stringify(localData));
+
+            closeModal();
+            loadData();
+        }
+
+        function deleteItem(url) {
+            if (!confirm('確定要刪除這個項目嗎？')) return;
+
+            let localData = JSON.parse(localStorage.getItem('my_custom_favorites') || '[]');
+            const newData = localData.filter(item => item.url !== url);
+
+            if (localData.length !== newData.length) {
+                localStorage.setItem('my_custom_favorites', JSON.stringify(newData));
+                loadData();
+            } else {
+                alert('無法刪除預設項目。');
+            }
+        }
+
+        // 音樂播放
+        function toggleMusic() {
+            const audio = document.getElementById('bg-audio');
+            const vinyl = document.getElementById('vinyl');
+            const playIcon = document.getElementById('play-icon');
+            const statusText = document.getElementById('music-status');
+
+            if (audio.paused) {
+                audio.play();
+                vinyl.classList.add('animate-spin-slow');
+                playIcon.classList.add('opacity-0');
+                statusText.innerText = "Playing...";
+            } else {
+                audio.pause();
+                vinyl.classList.remove('animate-spin-slow');
+                playIcon.classList.remove('opacity-0');
+                statusText.innerText = "Click to Play";
+            }
+        }
+    </script>
+</body>
+
+</html>

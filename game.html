@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>幸運撞球 | 夢幻工具庫</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        .font-serif-display {
+            font-family: 'Playfair Display', serif;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Original Light Theme */
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-attachment: fixed;
+        }
+
+        .aurora-blob {
+            position: fixed;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: float-aurora 15s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes float-aurora {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+        }
+
+        /* Glass Table Concept */
+        .glass-table-container {
+            position: absolute;
+            inset: 20px;
+            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 40px -10px rgba(99, 102, 241, 0.1);
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .pocket-visual {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        /* Physics Objects */
+        #physics-container {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .billiard-ball {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+            will-change: transform;
+            cursor: pointer;
+            pointer-events: auto;
+            border: 2px solid white;
+        }
+
+        .ball-icon {
+            width: 70%;
+            height: 70%;
+            object-fit: cover;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .cue-ball {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 20;
+        }
+
+        /* Visual Cue Stick */
+        .cue-stick {
+            position: absolute;
+            height: 6px;
+            background: linear-gradient(90deg, #94a3b8, #cbd5e1);
+            transform-origin: left center;
+            border-radius: 3px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+            z-index: 30;
+            display: none;
+        }
+
+        /* UI Overlay */
+        .ui-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .ui-element {
+            pointer-events: auto;
+        }
+
+        .glass-modal {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid white;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-indigo-50/30 text-slate-700 h-screen w-screen overflow-hidden bg-grid-pattern selection:bg-indigo-200">
+
+    <!-- Background -->
+    <div class="aurora-blob w-[500px] h-[500px] rounded-full bg-indigo-200 top-[-10%] left-[-10%] mix-blend-multiply">
+    </div>
+    <div
+        class="aurora-blob w-[600px] h-[600px] rounded-full bg-violet-200 bottom-[-10%] right-[-20%] mix-blend-multiply animation-delay-2000">
+    </div>
+
+    <!-- The Table -->
+    <div class="glass-table-container shadow-inner">
+        <!-- Visual Pockets -->
+        <div class="pocket-visual" style="top:-10px; left:-10px;"></div>
+        <div class="pocket-visual" style="top:-10px; left:50%; transform:translateX(-50%);"></div>
+        <div class="pocket-visual" style="top:-10px; right:-10px;"></div>
+        <div class="pocket-visual" style="bottom:-10px; left:-10px;"></div>
+        <div class="pocket-visual" style="bottom:-10px; left:50%; transform:translateX(-50%);"></div>
+        <div class="pocket-visual" style="bottom:-10px; right:-10px;"></div>
+
+        <!-- Game Area -->
+        <div id="physics-container"></div>
+    </div>
+
+    <!-- Aim Visuals -->
+    <div id="aim-line" class="absolute h-0.5 bg-indigo-300 origin-left hidden z-20 pointer-events-none"
+        style="border-style: dashed; border-width: 1px;"></div>
+    <div id="cue-stick" class="cue-stick"></div>
+
+    <!-- UI -->
+    <div class="ui-layer">
+        <!-- Header -->
+        <div class="absolute top-8 left-8 ui-element">
+            <a href="index.html"
+                class="flex items-center gap-2 text-slate-500 hover:text-indigo-600 transition-colors bg-white/50 backdrop-blur px-4 py-2 rounded-full border border-white/60 shadow-sm">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> 回首頁
+            </a>
+        </div>
+        <div class="absolute top-8 right-8 text-right ui-element">
+            <h1 class="text-2xl font-serif-display font-bold text-slate-800">Web Pool</h1>
+            <p class="text-xs text-slate-500">Drag control • <span class="font-bold text-indigo-500" id="score">0</span>
+                Collected</p>
+            <button onclick="resetGame()"
+                class="mt-2 text-xs text-slate-400 hover:text-indigo-500 flex items-center gap-1 ml-auto transition-colors">
+                <i data-lucide="refresh-cw" class="w-3 h-3"></i> Restart
+            </button>
+        </div>
+
+        <!-- Pop-up Modal -->
+        <div id="site-modal"
+            class="hidden absolute inset-0 flex items-center justify-center bg-indigo-50/20 backdrop-blur-[2px] ui-element transition-opacity duration-300">
+            <div
+                class="glass-modal p-8 rounded-3xl max-w-sm w-full mx-4 transform scale-100 text-center relative overflow-hidden">
+                <button onclick="keepPlaying()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i
+                        data-lucide="x" class="w-5 h-5"></i></button>
+
+                <div
+                    class="mx-auto w-20 h-20 bg-white rounded-full flex items-center justify-center mb-5 shadow-lg shadow-indigo-100">
+                    <img id="modal-img" src="" class="w-12 h-12 rounded-full object-cover">
+                </div>
+
+                <h2 id="modal-title" class="text-2xl font-bold text-slate-800 mb-2 font-serif-display">Website Title
+                </h2>
+                <p id="modal-desc" class="text-slate-500 text-sm mb-8 leading-relaxed">Description...</p>
+
+                <div class="flex gap-3">
+                    <button onclick="keepPlaying()"
+                        class="flex-1 px-4 py-3 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 transition-all">
+                        繼續遊戲
+                    </button>
+                    <a id="modal-link" href="#" target="_blank" onclick="keepPlaying()"
+                        class="flex-1 px-4 py-3 rounded-xl bg-indigo-500 text-white font-bold hover:bg-indigo-600 shadow-lg shadow-indigo-200 transition-all flex items-center justify-center gap-2">
+                        前往網站
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // --- Data Loading ---
+        const defaultTools = [
+            { title: "ChatGPT", desc: "AI 智能助手", url: "https://chat.openai.com/", img: "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg", color: "#10a37f" },
+            { title: "YouTube", desc: "影音串流平台", url: "https://www.youtube.com/", img: "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg", color: "#ff0000" },
+            { title: "GitHub", desc: "程式碼託管", url: "https://github.com/", img: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png", color: "#333" },
+            { title: "Shopee", desc: "蝦皮購物", url: "https://shopee.tw/", img: "https://cf.shopee.tw/file/5569c76f6b0fc1d198946777174415eb", color: "#ee4d2d" },
+            { title: "Gmail", desc: "Google 信箱", url: "https://mail.google.com/", img: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg", color: "#ea4335" },
+            { title: "Spotify", desc: "音樂播放", url: "https://open.spotify.com", img: "https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg", color: "#1db954" },
+            { title: "Netflix", desc: "電影影集", url: "https://www.netflix.com", img: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg", color: "#e50914" },
+            { title: "Notion", desc: "筆記軟體", url: "https://www.notion.so/", img: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png", color: "#000" }
+        ];
+
+        let gameData = [];
+        const localRaw = localStorage.getItem('my_custom_favorites');
+        const localData = localRaw ? JSON.parse(localRaw) : [];
+        const mappedLocal = localData.map(item => ({
+            title: item.title,
+            desc: item.description || "自訂收藏",
+            url: item.url,
+            img: item.image || "https://lucide.dev/icons/link",
+            color: "#6366f1"
+        }));
+        gameData = [...mappedLocal, ...defaultTools];
+
+        // --- Physics Engine ---
+        const Engine = Matter.Engine,
+            Render = Matter.Render,
+            Runner = Matter.Runner,
+            Bodies = Matter.Bodies,
+            Composite = Matter.Composite,
+            Events = Matter.Events,
+            Vector = Matter.Vector,
+            Body = Matter.Body;
+
+        const engine = Engine.create();
+        engine.gravity.y = 0;
+
+        const container = document.getElementById('physics-container');
+        // Container is inside the felt/table div (which has 20px margin)
+        // Wait, the container `bg-glass-table` is the boundary. 
+        // The `physics-container` is inside it. 
+        // Let's get dimensions of the *game area*, which is essentially window minus margin.
+
+        let width = container.clientWidth;
+        let height = container.clientHeight;
+
+        const BALL_SIZE = 44;
+        const BALL_RADIUS = BALL_SIZE / 2;
+        const POCKET_RADIUS = 30;
+
+        // Walls
+        const walls = [];
+        const WALL_THICK = 100;
+
+        function updateBoundaries() {
+            width = container.clientWidth;
+            height = container.clientHeight;
+            Composite.remove(engine.world, walls);
+            walls.length = 0;
+
+            // Recreate walls
+            walls.push(
+                Bodies.rectangle(width / 2, -WALL_THICK / 2, width, WALL_THICK, { isStatic: true, restitution: 0.8 }),
+                Bodies.rectangle(width / 2, height + WALL_THICK / 2, width, WALL_THICK, { isStatic: true, restitution: 0.8 }),
+                Bodies.rectangle(width + WALL_THICK / 2, height / 2, WALL_THICK, height, { isStatic: true, restitution: 0.8 }),
+                Bodies.rectangle(-WALL_THICK / 2, height / 2, WALL_THICK, height, { isStatic: true, restitution: 0.8 })
+            );
+            Composite.add(engine.world, walls);
+
+            // Update Pockets (Positions)
+            // For simplicity, we just use fixed sensors relative to new size
+            // But we need to update bodies.
+            // Let's just reload on resize for now, simplest for single-file demo.
+        }
+
+        // Pockets Sensors
+        const pockets = [];
+        function createPockets() {
+            const positions = [
+                { x: 0, y: 0 }, { x: width / 2, y: 0 }, { x: width, y: 0 },
+                { x: 0, y: height }, { x: width / 2, y: height }, { x: width, y: height }
+            ];
+            positions.forEach(pos => {
+                const p = Bodies.circle(pos.x, pos.y, POCKET_RADIUS, { isSensor: true, isStatic: true, label: 'pocket' });
+                pockets.push(p);
+                Composite.add(engine.world, p);
+            });
+        }
+
+        // Balls
+        const domBalls = [];
+        let cueBallInfo = null;
+
+        function initBalls() {
+            updateBoundaries();
+            createPockets();
+
+            // Cue
+            const cueEl = document.createElement('div');
+            cueEl.className = 'billiard-ball cue-ball';
+            container.appendChild(cueEl);
+            const cueBody = Bodies.circle(width * 0.25, height / 2, BALL_RADIUS, {
+                restitution: 0.9, friction: 0.005, frictionAir: 0.015, density: 0.05, label: 'cueball'
+            });
+            Composite.add(engine.world, cueBody);
+            cueBallInfo = { body: cueBody, element: cueEl };
+
+            // Targets
+            const startX = width * 0.7;
+            const startY = height / 2;
+            let idx = 0;
+            for (let col = 0; col < 4; col++) {
+                for (let row = 0; row <= col; row++) {
+                    if (idx >= gameData.length) break;
+                    const item = gameData[idx];
+                    const x = startX + col * (BALL_SIZE - 2);
+                    const y = startY + (row - col / 2) * (BALL_SIZE - 2) + Math.random();
+
+                    const el = document.createElement('div');
+                    el.className = 'billiard-ball';
+                    el.style.borderColor = item.color;
+                    el.innerHTML = `<img src="${item.img}" class="ball-icon">`;
+                    container.appendChild(el);
+
+                    const body = Bodies.circle(x, y, BALL_RADIUS, {
+                        restitution: 0.9, friction: 0.005, frictionAir: 0.015,
+                        label: 'target', plugin: { data: item }
+                    });
+                    Composite.add(engine.world, body);
+                    domBalls.push({ body, element: el });
+                    idx++;
+                }
+            }
+        }
+
+        // Loop
+        Events.on(engine, 'afterUpdate', () => {
+            if (!cueBallInfo.isPotted) {
+                const { x, y } = cueBallInfo.body.position;
+                cueBallInfo.element.style.transform = `translate(${x - BALL_RADIUS}px, ${y - BALL_RADIUS}px)`;
+            }
+            domBalls.forEach(b => {
+                if (b.body.label === 'potted') return;
+                const { x, y } = b.body.position;
+                b.element.style.transform = `translate(${x - BALL_RADIUS}px, ${y - BALL_RADIUS}px) rotate(${b.body.angle}rad)`;
+            });
+        });
+
+        // Collision (Pocket)
+        Events.on(engine, 'collisionStart', (evt) => {
+            evt.pairs.forEach(pair => {
+                const { bodyA, bodyB } = pair;
+                let ball = null, isPocket = false;
+                if (bodyA.label === 'pocket') { ball = bodyB; isPocket = true; }
+                else if (bodyB.label === 'pocket') { ball = bodyA; isPocket = true; }
+
+                if (isPocket && ball) {
+                    if (ball.label === 'target') {
+                        const idx = domBalls.findIndex(b => b.body === ball);
+                        if (idx > -1) {
+                            Composite.remove(engine.world, ball);
+                            domBalls[idx].element.style.display = 'none'; // Instant hide
+                            ball.label = 'potted';
+                            showModal(ball.plugin.data);
+                            updateScore();
+                        }
+                    } else if (ball.label === 'cueball') {
+                        Body.setPosition(ball, { x: width * 0.25, y: height / 2 });
+                        Body.setVelocity(ball, { x: 0, y: 0 });
+                    }
+                }
+            });
+        });
+
+        let score = 0;
+        function updateScore() {
+            score++;
+            document.getElementById('score').innerText = score;
+        }
+
+        // Shooting
+        let isDrag = false;
+        const cueStick = document.getElementById('cue-stick');
+        const aimLine = document.getElementById('aim-line');
+        let shotVector = null;
+
+        document.addEventListener('mousedown', startDrag);
+        document.addEventListener('mousemove', updateDrag);
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('touchstart', e => startDrag(e.touches[0]));
+        document.addEventListener('touchmove', e => updateDrag(e.touches[0]));
+        document.addEventListener('touchend', endDrag);
+
+        function startDrag(e) {
+            const rect = container.getBoundingClientRect();
+            const bx = cueBallInfo.body.position.x + rect.left;
+            const by = cueBallInfo.body.position.y + rect.top;
+            const dist = Math.hypot(e.clientX - bx, e.clientY - by);
+            if (dist < 50) isDrag = true;
+        }
+
+        function updateDrag(e) {
+            if (!isDrag) return;
+            const rect = container.getBoundingClientRect();
+            const ballPos = cueBallInfo.body.position;
+            // Mouse relative to container (corrected)
+            // Wait, container is margin'd.
+            const mx = e.clientX - rect.left;
+            const my = e.clientY - rect.top;
+
+            const dx = ballPos.x - mx;
+            const dy = ballPos.y - my;
+            const angle = Math.atan2(dy, dx);
+            const len = Math.min(Math.hypot(dx, dy), 150);
+
+            shotVector = { x: Math.cos(angle) * len * 0.13, y: Math.sin(angle) * len * 0.13 };
+
+            // Visuals (absolute to screen)
+            const screenBx = ballPos.x + rect.left;
+            const screenBy = ballPos.y + rect.top;
+
+            // Stick
+            const stickDist = BALL_RADIUS + len;
+            const stickX = screenBx - Math.cos(angle) * stickDist;
+            const stickY = screenBy - Math.sin(angle) * stickDist;
+
+            cueStick.style.display = 'block';
+            cueStick.style.left = stickX + 'px';
+            cueStick.style.top = (stickY - 3) + 'px';
+            cueStick.style.width = '200px';
+            cueStick.style.transform = `rotate(${angle}rad)`;
+
+            // Aim
+            aimLine.style.display = 'block';
+            aimLine.style.left = screenBx + 'px';
+            aimLine.style.top = screenBy + 'px';
+            aimLine.style.width = (len * 2.5) + 'px';
+            aimLine.style.transform = `rotate(${angle}rad)`;
+        }
+
+        function endDrag() {
+            if (!isDrag) return;
+            isDrag = false;
+            cueStick.style.display = 'none';
+            aimLine.style.display = 'none';
+            if (shotVector) {
+                Body.applyForce(cueBallInfo.body, cueBallInfo.body.position, shotVector);
+                shotVector = null;
+            }
+        }
+
+        // Modal
+        const modal = document.getElementById('site-modal');
+        function showModal(data) {
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-desc').innerText = data.desc;
+            document.getElementById('modal-img').src = data.img;
+            document.getElementById('modal-link').href = data.url;
+            modal.classList.remove('hidden');
+        }
+        function keepPlaying() {
+            modal.classList.add('hidden');
+        }
+        function resetGame() { location.reload(); }
+
+        // Init
+        setTimeout(() => {
+            initBalls();
+            Runner.run(Runner.create(), engine);
+        }, 100);
+
+        window.addEventListener('resize', () => location.reload()); // Simple resize handle
+    </script>
+</body>
+
+</html>
