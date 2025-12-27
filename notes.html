@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>靈感筆記 | 夢幻工具庫</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        .font-serif-display {
+            font-family: 'Playfair Display', serif;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+            background-attachment: fixed;
+        }
+
+        .aurora-blob {
+            position: fixed;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: float-aurora 15s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes float-aurora {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 20px 0 rgba(16, 185, 129, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: #6ee7b7;
+            box-shadow: 0 10px 30px 0 rgba(16, 185, 129, 0.1);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-emerald-50/30 text-slate-700 min-h-screen bg-grid-pattern selection:bg-emerald-200">
+
+    <div class="aurora-blob w-[500px] h-[500px] rounded-full bg-emerald-200 top-[-10%] left-[-10%] mix-blend-multiply">
+    </div>
+    <div
+        class="aurora-blob w-[600px] h-[600px] rounded-full bg-teal-200 bottom-[-10%] right-[-20%] mix-blend-multiply animation-delay-2000">
+    </div>
+
+    <nav class="sticky top-0 z-50 bg-white/60 backdrop-blur-xl border-b border-white/40">
+        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 bg-gradient-to-tr from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center text-white shadow-lg rotate-3">
+                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                </div>
+                <span class="font-serif-display font-bold text-2xl text-slate-800">My Notes</span>
+            </div>
+            <div class="hidden md:flex items-center gap-6 font-medium text-sm text-slate-500">
+                <a href="index.html" class="hover:text-emerald-500 transition-colors">精選作品</a>
+                <a href="favorites.html" class="hover:text-emerald-500 transition-colors">我的常用</a>
+                <a href="toolbox.html" class="hover:text-emerald-500 transition-colors">工具箱</a>
+                <a href="notes.html" class="text-emerald-600 font-bold">靈感筆記</a>
+                <a href="game.html" class="hover:text-emerald-500 transition-colors">小遊戲</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="max-w-7xl mx-auto px-4 py-20 text-center fade-in">
+        <h1 class="text-5xl md:text-7xl font-serif-display font-bold text-slate-800 mb-6">
+            Thoughts & <br />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-500 italic">
+                Ideas
+            </span>
+        </h1>
+        <p class="text-slate-500 text-lg max-w-2xl mx-auto">
+            捕捉靈光一閃的時刻，記錄學習與思考的軌跡。
+        </p>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 pb-24 fade-in space-y-8">
+
+        <!-- Note 1 -->
+        <article
+            class="glass-card p-8 rounded-3xl flex gap-6 flex-col sm:flex-row items-start hover:bg-white/80 transition-colors cursor-pointer group">
+            <div class="w-full sm:w-48 aspect-video sm:aspect-square rounded-2xl overflow-hidden shrink-0">
+                <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=800&auto=format&fit=crop"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2 text-xs font-bold text-emerald-500 uppercase tracking-wider">
+                    <span>Design</span>
+                    <span class="w-1 h-1 rounded-full bg-emerald-300"></span>
+                    <span>Oct 24, 2025</span>
+                </div>
+                <h2
+                    class="text-2xl font-serif-display font-bold text-slate-800 mb-3 group-hover:text-emerald-600 transition-colors">
+                    極簡主義設計的哲學思考</h2>
+                <p class="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2">
+                    少即是多（Less is More）不僅僅是一句口號，它是一種生活態度。在數位介面設計中，如何透過減法來突顯核心價值...
+                </p>
+                <div
+                    class="flex items-center text-emerald-600 text-sm font-bold group-hover:translate-x-2 transition-transform">
+                    Read more <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                </div>
+            </div>
+        </article>
+
+        <!-- Note 2 -->
+        <article
+            class="glass-card p-8 rounded-3xl flex gap-6 flex-col sm:flex-row items-start hover:bg-white/80 transition-colors cursor-pointer group">
+            <div class="w-full sm:w-48 aspect-video sm:aspect-square rounded-2xl overflow-hidden shrink-0">
+                <img src="https://images.unsplash.com/photo-1499750310159-52f0f83ad713?q=80&w=800&auto=format&fit=crop"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2 text-xs font-bold text-teal-500 uppercase tracking-wider">
+                    <span>Life</span>
+                    <span class="w-1 h-1 rounded-full bg-teal-300"></span>
+                    <span>Sep 15, 2025</span>
+                </div>
+                <h2
+                    class="text-2xl font-serif-display font-bold text-slate-800 mb-3 group-hover:text-teal-600 transition-colors">
+                    晨間儀式的力量</h2>
+                <p class="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2">
+                    建立一個穩定的晨間儀式可以徹底改變一天的品質。分享我自己實踐了三個月的早晨習慣清單...
+                </p>
+                <div
+                    class="flex items-center text-teal-600 text-sm font-bold group-hover:translate-x-2 transition-transform">
+                    Read more <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                </div>
+            </div>
+        </article>
+
+        <!-- Note 3 -->
+        <article
+            class="glass-card p-8 rounded-3xl flex gap-6 flex-col sm:flex-row items-start hover:bg-white/80 transition-colors cursor-pointer group">
+            <div class="w-full sm:w-48 aspect-video sm:aspect-square rounded-2xl overflow-hidden shrink-0">
+                <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=800&auto=format&fit=crop"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2 text-xs font-bold text-cyan-500 uppercase tracking-wider">
+                    <span>Tech</span>
+                    <span class="w-1 h-1 rounded-full bg-cyan-300"></span>
+                    <span>Aug 02, 2025</span>
+                </div>
+                <h2
+                    class="text-2xl font-serif-display font-bold text-slate-800 mb-3 group-hover:text-cyan-600 transition-colors">
+                    AI 時代的學習策略</h2>
+                <p class="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2">
+                    當知識獲取變得如此容易，我們該如何培養核心競爭力？探討人機協作時代下的學習新思維...
+                </p>
+                <div
+                    class="flex items-center text-cyan-600 text-sm font-bold group-hover:translate-x-2 transition-transform">
+                    Read more <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                </div>
+            </div>
+        </article>
+
+    </main>
+
+    <footer
+        class="border-t border-white/40 bg-white/20 backdrop-blur-md py-12 text-center text-slate-400 text-sm font-serif-display italic">
+        <p>© 2025 My Notes. Writing the future.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

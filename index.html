@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精選作品 | 夢幻作品集</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        /* 字體設定 */
+        .font-serif-display {
+            font-family: 'Playfair Display', serif;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* 背景與特效 */
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(14, 165, 233, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(14, 165, 233, 0.03) 1px, transparent 1px);
+            background-attachment: fixed;
+        }
+
+        .aurora-blob {
+            position: fixed;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: float-aurora 15s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes float-aurora {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+        }
+
+        /* 卡片樣式 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 20px 0 rgba(14, 165, 233, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: #7dd3fc;
+            box-shadow: 0 10px 30px 0 rgba(14, 165, 233, 0.1);
+        }
+
+        /* 動畫 */
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-700 min-h-screen bg-grid-pattern selection:bg-sky-200">
+
+    <!-- 極光背景 -->
+    <div class="aurora-blob w-[500px] h-[500px] rounded-full bg-purple-300 top-[-10%] left-[-10%] mix-blend-multiply">
+    </div>
+    <div
+        class="aurora-blob w-[600px] h-[600px] rounded-full bg-pink-200 bottom-[-10%] right-[-20%] mix-blend-multiply animation-delay-2000">
+    </div>
+
+    <!-- 導航列 -->
+    <nav class="sticky top-0 z-50 bg-white/60 backdrop-blur-xl border-b border-white/40">
+        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 bg-gradient-to-tr from-purple-400 to-pink-500 rounded-xl flex items-center justify-center text-white shadow-lg rotate-3">
+                    <i data-lucide="layers" class="w-5 h-5"></i>
+                </div>
+                <span class="font-serif-display font-bold text-2xl text-slate-800">My Portfolio</span>
+            </div>
+            <div class="hidden md:flex items-center gap-6 font-medium text-sm text-slate-500">
+                <a href="index.html" class="text-purple-600 font-bold">精選作品</a>
+                <a href="favorites.html" class="hover:text-purple-500 transition-colors">我的常用</a>
+                <a href="toolbox.html" class="hover:text-purple-500 transition-colors">工具箱</a>
+                <a href="notes.html" class="hover:text-purple-500 transition-colors">靈感筆記</a>
+                <a href="game.html" class="hover:text-purple-500 transition-colors">小遊戲</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="max-w-7xl mx-auto px-4 py-20 text-center fade-in">
+        <h1 class="text-5xl md:text-7xl font-serif-display font-bold text-slate-800 mb-6">
+            Creative <br />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 italic">
+                Masterpieces
+            </span>
+        </h1>
+        <p class="text-slate-500 text-lg max-w-2xl mx-auto">
+            這裡展示了我最自豪的設計專案與開發成果，每一個作品都代表著一次突破與成長。
+        </p>
+    </header>
+
+    <!-- 作品集列表 -->
+    <main class="max-w-7xl mx-auto px-4 pb-24 fade-in">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Project 1 -->
+            <article class="glass-card rounded-3xl overflow-hidden group cursor-pointer">
+                <div class="h-64 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1481487484168-9b930d5b7886?q=80&w=800&auto=format&fit=crop"
+                        alt="Project 1"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span
+                            class="bg-white/90 text-slate-800 px-6 py-2 rounded-full font-bold text-sm backdrop-blur-sm transform translate-y-4 group-hover:translate-y-0 transition-transform">View
+                            Project</span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="text-xs font-bold text-purple-500 tracking-wider mb-2 uppercase">Web Design</div>
+                    <h3
+                        class="text-2xl font-serif-display font-bold text-slate-800 mb-3 group-hover:text-purple-600 transition-colors">
+                        Lumina Dashboard</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                        一個專為現代數據分析設計的儀表板介面，結合了深色模式與極光漸層風格。
+                    </p>
+                    <div class="flex gap-2">
+                        <span
+                            class="px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-xs font-medium">React</span>
+                        <span
+                            class="px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-xs font-medium">Tailwind</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 2 -->
+            <article class="glass-card rounded-3xl overflow-hidden group cursor-pointer">
+                <div class="h-64 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop"
+                        alt="Project 2"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span
+                            class="bg-white/90 text-slate-800 px-6 py-2 rounded-full font-bold text-sm backdrop-blur-sm transform translate-y-4 group-hover:translate-y-0 transition-transform">View
+                            Project</span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="text-xs font-bold text-blue-500 tracking-wider mb-2 uppercase">Development</div>
+                    <h3
+                        class="text-2xl font-serif-display font-bold text-slate-800 mb-3 group-hover:text-blue-600 transition-colors">
+                        CodeFlow Editor</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                        輕量級的線上程式碼編輯器，支援即時預覽與多人協作功能。
+                    </p>
+                    <div class="flex gap-2">
+                        <span
+                            class="px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-xs font-medium">Vue.js</span>
+                        <span
+                            class="px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-xs font-medium">Node.js</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 3 -->
+            <article class="glass-card rounded-3xl overflow-hidden group cursor-pointer">
+                <div class="h-64 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=800&auto=format&fit=crop"
+                        alt="Project 3"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span
+                            class="bg-white/90 text-slate-800 px-6 py-2 rounded-full font-bold text-sm backdrop-blur-sm transform translate-y-4 group-hover:translate-y-0 transition-transform">View
+                            Project</span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="text-xs font-bold text-pink-500 tracking-wider mb-2 uppercase">Branding</div>
+                    <h3
+                        class="text-2xl font-serif-display font-bold text-slate-800 mb-3 group-hover:text-pink-600 transition-colors">
+                        Neon Identity</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                        為新創科技公司設計的完整品牌識別系統，包含 Logo、字體與配色規範。
+                    </p>
+                    <div class="flex gap-2">
+                        <span
+                            class="px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-xs font-medium">Figma</span>
+                        <span
+                            class="px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-xs font-medium">Illustrator</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer
+        class="border-t border-white/40 bg-white/20 backdrop-blur-md py-12 text-center text-slate-400 text-sm font-serif-display italic">
+        <p>© 2025 My Portfolio. Crafted with passion.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
