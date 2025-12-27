@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拍立得相機 | 夢幻工具庫</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Caveat:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        .font-serif-display {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-handwriting {
+            font-family: 'Caveat', cursive;
+        }
+
+        body {
+            font-family: 'Plus+Jakarta Sans', sans-serif;
+        }
+
+        .bg-dots {
+            background-image: radial-gradient(circle, #e0e0e0 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 16px 16px 60px 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.1);
+            cursor: move;
+            user-select: none;
+            position: absolute;
+            transition: transform 0.1s ease;
+        }
+
+        .polaroid:hover {
+            transform: scale(1.02);
+            z-index: 100 !important;
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #f0f0f0;
+        }
+
+        .polaroid-text {
+            font-family: 'Caveat', cursive;
+            font-size: 20px;
+            text-align: center;
+            margin-top: 12px;
+            color: #333;
+            outline: none;
+            border: none;
+            background: transparent;
+            width: 100%;
+        }
+
+        .polaroid-date {
+            font-family: 'Caveat', cursive;
+            font-size: 14px;
+            text-align: center;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .camera-body {
+            background: linear-gradient(135deg, #e8dcc4 0%, #d4c4a8 100%);
+            border-radius: 20px 20px 8px 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .camera-lens {
+            background: radial-gradient(circle, #1a1a1a 40%, #333 70%, #1a1a1a 100%);
+            border: 4px solid #2a2a2a;
+        }
+
+        .shutter-btn {
+            background: radial-gradient(circle, #ff4444, #cc0000);
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3), 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .shutter-btn:active {
+            transform: scale(0.95);
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        @keyframes flash {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .flash-effect {
+            animation: flash 0.3s ease-out;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen bg-dots">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 bg-gradient-to-tr from-amber-400 to-orange-500 rounded-xl flex items-center justify-center text-white shadow-lg rotate-3">
+                    <i data-lucide="camera" class="w-5 h-5"></i>
+                </div>
+                <span class="font-serif-display font-bold text-2xl text-slate-800">Polaroid</span>
+            </div>
+            <div class="hidden md:flex items-center gap-6 font-medium text-sm text-slate-500">
+                <a href="index.html" class="hover:text-amber-500 transition-colors">精選作品</a>
+                <a href="favorites.html" class="hover:text-amber-500 transition-colors">我的常用</a>
+                <a href="toolbox.html" class="hover:text-amber-500 transition-colors">工具箱</a>
+                <a href="notes.html" class="hover:text-amber-500 transition-colors">靈感筆記</a>
+                <a href="game.html" class="hover:text-amber-500 transition-colors">小遊戲</a>
+                <a href="polaroid.html" class="text-amber-600 font-bold">拍立得</a>
+            </div>
+            <button onclick="toggleMobileMenu()"
+                class="md:hidden text-slate-600 hover:text-amber-500 transition-colors">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200">
+            <div class="px-4 py-4 space-y-3">
+                <a href="index.html" class="block py-2 text-slate-600 hover:text-amber-500 transition-colors">精選作品</a>
+                <a href="favorites.html"
+                    class="block py-2 text-slate-600 hover:text-amber-500 transition-colors">我的常用</a>
+                <a href="toolbox.html" class="block py-2 text-slate-600 hover:text-amber-500 transition-colors">工具箱</a>
+                <a href="notes.html" class="block py-2 text-slate-600 hover:text-amber-500 transition-colors">靈感筆記</a>
+                <a href="game.html" class="block py-2 text-slate-600 hover:text-amber-500 transition-colors">小遊戲</a>
+                <a href="polaroid.html" class="block py-2 text-amber-600 font-bold">拍立得</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Effect -->
+    <div id="flash" class="fixed inset-0 bg-white pointer-events-none z-50 opacity-0"></div>
+
+    <!-- Photo Display Area -->
+    <div id="photo-board" class="relative min-h-[calc(100vh-400px)] p-8">
+        <!-- Polaroids will be added here -->
+    </div>
+
+    <!-- Camera -->
+    <div class="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-gray-200 to-transparent pb-8 pt-16">
+        <div class="max-w-md mx-auto px-4">
+            <div class="camera-body p-6 relative">
+                <!-- Top Bar -->
+                <div class="flex justify-between items-center mb-4">
+                    <div class="w-16 h-6 bg-black/20 rounded-full"></div>
+                    <div class="w-12 h-12 bg-black/30 rounded-lg"></div>
+                </div>
+
+                <!-- Lens & Controls -->
+                <div class="flex items-center justify-between gap-4">
+                    <!-- Flash -->
+                    <div class="w-12 h-8 bg-black/20 rounded"></div>
+
+                    <!-- Lens -->
+                    <div
+                        class="camera-lens w-24 h-24 rounded-full flex items-center justify-center relative overflow-hidden">
+                        <div class="w-16 h-16 rounded-full bg-black/50"></div>
+                        <img id="camera-preview" src="" class="absolute inset-0 w-full h-full object-cover opacity-30"
+                            style="display:none;">
+                    </div>
+
+                    <!-- Viewfinder -->
+                    <div class="w-12 h-12 bg-black/40 rounded"></div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex items-center justify-between mt-6">
+                    <label for="photo-input"
+                        class="shutter-btn w-16 h-16 rounded-full cursor-pointer flex items-center justify-center transition-transform active:scale-95">
+                        <i data-lucide="camera" class="w-8 h-8 text-white"></i>
+                    </label>
+                    <input type="file" id="photo-input" accept="image/*" class="hidden">
+
+                    <button onclick="clearAll()"
+                        class="w-12 h-12 bg-black/30 rounded-full flex items-center justify-center hover:bg-black/40 transition-colors">
+                        <i data-lucide="trash-2" class="w-5 h-5 text-white/80"></i>
+                    </button>
+                </div>
+
+                <!-- Brand -->
+                <div class="mt-4 text-center">
+                    <div class="inline-flex items-center gap-2 bg-black/80 px-4 py-1 rounded-full">
+                        <span class="font-handwriting text-white text-xl">Xing lee</span>
+                        <span class="bg-red-500 text-white text-xs px-2 py-0.5 rounded">追蹤</span>
+                        <span class="text-white/60 text-xs">CAMERA</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        let photos = [];
+        let draggedElement = null;
+        let offsetX, offsetY;
+
+        // Load from localStorage
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('polaroid_photos');
+            if (saved) {
+                photos = JSON.parse(saved);
+                photos.forEach(photo => createPolaroid(photo.image, photo.text, photo.date, photo.x, photo.y, photo.rotation));
+            }
+        });
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        // Photo Upload
+        document.getElementById('photo-input').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    takePicture(event.target.result);
+                };
+                reader.readAsDataURL(file);
+                e.target.value = ''; // Reset input
+            }
+        });
+
+        function takePicture(imageData) {
+            // Flash effect
+            const flash = document.getElementById('flash');
+            flash.classList.add('flash-effect');
+            setTimeout(() => flash.classList.remove('flash-effect'), 300);
+
+            // Random position
+            const board = document.getElementById('photo-board');
+            const maxX = board.clientWidth - 250;
+            const maxY = board.clientHeight - 300;
+            const x = Math.random() * Math.max(maxX, 100) + 50;
+            const y = Math.random() * Math.max(maxY, 100) + 50;
+            const rotation = (Math.random() - 0.5) * 20;
+
+            const date = new Date().toLocaleDateString('zh-TW');
+
+            createPolaroid(imageData, 'Type here', date, x, y, rotation);
+
+            // Save
+            photos.push({ image: imageData, text: 'Type here', date, x, y, rotation });
+            savePhotos();
+        }
+
+        function createPolaroid(imageSrc, text, date, x, y, rotation) {
+            const polaroid = document.createElement('div');
+            polaroid.className = 'polaroid';
+            polaroid.style.left = x + 'px';
+            polaroid.style.top = y + 'px';
+            polaroid.style.transform = `rotate(${rotation}deg)`;
+            polaroid.style.width = '220px';
+            polaroid.style.zIndex = photos.length;
+
+            polaroid.innerHTML = `
+                <button onclick="deletePolaroid(this)" class="absolute top-2 right-2 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-red-50 transition-colors z-10">
+                    <i data-lucide="x" class="w-4 h-4 text-gray-600"></i>
+                </button>
+                <img src="${imageSrc}" alt="Photo" draggable="false">
+                <input type="text" class="polaroid-text" value="${text}" onchange="updateText(this)">
+                <div class="polaroid-date">${date}</div>
+            `;
+
+            // Drag functionality
+            polaroid.addEventListener('mousedown', startDrag);
+            polaroid.addEventListener('touchstart', startDrag);
+
+            document.getElementById('photo-board').appendChild(polaroid);
+            lucide.createIcons();
+        }
+
+        function startDrag(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.closest('button')) return;
+
+            draggedElement = e.currentTarget;
+            const rect = draggedElement.getBoundingClientRect();
+
+            const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+
+            offsetX = clientX - rect.left;
+            offsetY = clientY - rect.top;
+
+            draggedElement.style.zIndex = 1000;
+
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+            document.addEventListener('touchmove', drag);
+            document.addEventListener('touchend', stopDrag);
+        }
+
+        function drag(e) {
+            if (!draggedElement) return;
+            e.preventDefault();
+
+            const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+
+            draggedElement.style.left = (clientX - offsetX) + 'px';
+            draggedElement.style.top = (clientY - offsetY) + 'px';
+        }
+
+        function stopDrag() {
+            if (draggedElement) {
+                draggedElement.style.zIndex = photos.length;
+                savePositions();
+                draggedElement = null;
+            }
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('touchend', stopDrag);
+        }
+
+        function updateText(input) {
+            savePositions();
+        }
+
+        function deletePolaroid(btn) {
+            const polaroid = btn.closest('.polaroid');
+            const index = Array.from(document.querySelectorAll('.polaroid')).indexOf(polaroid);
+            photos.splice(index, 1);
+            polaroid.remove();
+            savePhotos();
+        }
+
+        function clearAll() {
+            if (confirm('確定要清除所有照片嗎？')) {
+                photos = [];
+                document.getElementById('photo-board').innerHTML = '';
+                savePhotos();
+            }
+        }
+
+        function savePositions() {
+            const polaroids = document.querySelectorAll('.polaroid');
+            polaroids.forEach((polaroid, index) => {
+                if (photos[index]) {
+                    photos[index].x = parseInt(polaroid.style.left);
+                    photos[index].y = parseInt(polaroid.style.top);
+                    photos[index].text = polaroid.querySelector('.polaroid-text').value;
+                }
+            });
+            savePhotos();
+        }
+
+        function savePhotos() {
+            localStorage.setItem('polaroid_photos', JSON.stringify(photos));
+        }
+    </script>
+</body>
+
+</html>

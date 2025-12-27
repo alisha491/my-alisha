@@ -4,15 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>靈感筆記 | 夢幻工具庫</title>
+    <title>我的日記 | 夢幻工具庫</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Caveat:wght@400;600&display=swap"
         rel="stylesheet">
     <style>
         .font-serif-display {
             font-family: 'Playfair Display', serif;
+        }
+
+        .font-handwriting {
+            font-family: 'Caveat', cursive;
         }
 
         body {
@@ -91,119 +95,318 @@
                     class="w-10 h-10 bg-gradient-to-tr from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center text-white shadow-lg rotate-3">
                     <i data-lucide="book-open" class="w-5 h-5"></i>
                 </div>
-                <span class="font-serif-display font-bold text-2xl text-slate-800">My Notes</span>
+                <span class="font-serif-display font-bold text-2xl text-slate-800">My Diary</span>
             </div>
             <div class="hidden md:flex items-center gap-6 font-medium text-sm text-slate-500">
                 <a href="index.html" class="hover:text-emerald-500 transition-colors">精選作品</a>
                 <a href="favorites.html" class="hover:text-emerald-500 transition-colors">我的常用</a>
                 <a href="toolbox.html" class="hover:text-emerald-500 transition-colors">工具箱</a>
-                <a href="notes.html" class="text-emerald-600 font-bold">靈感筆記</a>
+                <a href="notes.html" class="text-emerald-600 font-bold">我的日記</a>
                 <a href="game.html" class="hover:text-emerald-500 transition-colors">小遊戲</a>
+                <a href="polaroid.html" class="hover:text-emerald-500 transition-colors">拍立得</a>
+            </div>
+            <button onclick="toggleMobileMenu()"
+                class="md:hidden text-slate-600 hover:text-emerald-500 transition-colors">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-white/40">
+            <div class="px-4 py-4 space-y-3">
+                <a href="index.html" class="block py-2 text-slate-600 hover:text-emerald-500 transition-colors">精選作品</a>
+                <a href="favorites.html"
+                    class="block py-2 text-slate-600 hover:text-emerald-500 transition-colors">我的常用</a>
+                <a href="toolbox.html"
+                    class="block py-2 text-slate-600 hover:text-emerald-500 transition-colors">工具箱</a>
+                <a href="notes.html" class="block py-2 text-emerald-600 font-bold">我的日記</a>
+                <a href="game.html" class="block py-2 text-slate-600 hover:text-emerald-500 transition-colors">小遊戲</a>
+                <a href="polaroid.html"
+                    class="block py-2 text-slate-600 hover:text-emerald-500 transition-colors">拍立得</a>
             </div>
         </div>
     </nav>
 
     <header class="max-w-7xl mx-auto px-4 py-20 text-center fade-in">
         <h1 class="text-5xl md:text-7xl font-serif-display font-bold text-slate-800 mb-6">
-            Thoughts & <br />
+            My Daily <br />
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-500 italic">
-                Ideas
+                Journal
             </span>
         </h1>
         <p class="text-slate-500 text-lg max-w-2xl mx-auto">
-            捕捉靈光一閃的時刻，記錄學習與思考的軌跡。
+            記錄每一天的心情、想法與回憶。
         </p>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 pb-24 fade-in space-y-8">
+    <main class="max-w-4xl mx-auto px-4 pb-24 fade-in">
 
-        <!-- Note 1 -->
-        <article
-            class="glass-card p-8 rounded-3xl flex gap-6 flex-col sm:flex-row items-start hover:bg-white/80 transition-colors cursor-pointer group">
-            <div class="w-full sm:w-48 aspect-video sm:aspect-square rounded-2xl overflow-hidden shrink-0">
-                <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=800&auto=format&fit=crop"
-                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-            </div>
-            <div class="flex-1">
-                <div class="flex items-center gap-2 mb-2 text-xs font-bold text-emerald-500 uppercase tracking-wider">
-                    <span>Design</span>
-                    <span class="w-1 h-1 rounded-full bg-emerald-300"></span>
-                    <span>Oct 24, 2025</span>
-                </div>
-                <h2
-                    class="text-2xl font-serif-display font-bold text-slate-800 mb-3 group-hover:text-emerald-600 transition-colors">
-                    極簡主義設計的哲學思考</h2>
-                <p class="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2">
-                    少即是多（Less is More）不僅僅是一句口號，它是一種生活態度。在數位介面設計中，如何透過減法來突顯核心價值...
-                </p>
-                <div
-                    class="flex items-center text-emerald-600 text-sm font-bold group-hover:translate-x-2 transition-transform">
-                    Read more <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                </div>
-            </div>
-        </article>
+        <!-- Add Button -->
+        <div class="flex justify-end mb-6">
+            <button onclick="openModal()"
+                class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold transition-all shadow-lg shadow-emerald-200">
+                <i data-lucide="plus" class="w-4 h-4"></i> 新增日記
+            </button>
+        </div>
 
-        <!-- Note 2 -->
-        <article
-            class="glass-card p-8 rounded-3xl flex gap-6 flex-col sm:flex-row items-start hover:bg-white/80 transition-colors cursor-pointer group">
-            <div class="w-full sm:w-48 aspect-video sm:aspect-square rounded-2xl overflow-hidden shrink-0">
-                <img src="https://images.unsplash.com/photo-1499750310159-52f0f83ad713?q=80&w=800&auto=format&fit=crop"
-                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-            </div>
-            <div class="flex-1">
-                <div class="flex items-center gap-2 mb-2 text-xs font-bold text-teal-500 uppercase tracking-wider">
-                    <span>Life</span>
-                    <span class="w-1 h-1 rounded-full bg-teal-300"></span>
-                    <span>Sep 15, 2025</span>
-                </div>
-                <h2
-                    class="text-2xl font-serif-display font-bold text-slate-800 mb-3 group-hover:text-teal-600 transition-colors">
-                    晨間儀式的力量</h2>
-                <p class="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2">
-                    建立一個穩定的晨間儀式可以徹底改變一天的品質。分享我自己實踐了三個月的早晨習慣清單...
-                </p>
-                <div
-                    class="flex items-center text-teal-600 text-sm font-bold group-hover:translate-x-2 transition-transform">
-                    Read more <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                </div>
-            </div>
-        </article>
+        <!-- Diary Entries -->
+        <div id="diary-list" class="space-y-6">
+            <!-- Entries will be added here by JavaScript -->
+        </div>
 
-        <!-- Note 3 -->
-        <article
-            class="glass-card p-8 rounded-3xl flex gap-6 flex-col sm:flex-row items-start hover:bg-white/80 transition-colors cursor-pointer group">
-            <div class="w-full sm:w-48 aspect-video sm:aspect-square rounded-2xl overflow-hidden shrink-0">
-                <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=800&auto=format&fit=crop"
-                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-20">
+            <div class="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="book-open" class="w-10 h-10 text-emerald-500"></i>
             </div>
-            <div class="flex-1">
-                <div class="flex items-center gap-2 mb-2 text-xs font-bold text-cyan-500 uppercase tracking-wider">
-                    <span>Tech</span>
-                    <span class="w-1 h-1 rounded-full bg-cyan-300"></span>
-                    <span>Aug 02, 2025</span>
-                </div>
-                <h2
-                    class="text-2xl font-serif-display font-bold text-slate-800 mb-3 group-hover:text-cyan-600 transition-colors">
-                    AI 時代的學習策略</h2>
-                <p class="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2">
-                    當知識獲取變得如此容易，我們該如何培養核心競爭力？探討人機協作時代下的學習新思維...
-                </p>
-                <div
-                    class="flex items-center text-cyan-600 text-sm font-bold group-hover:translate-x-2 transition-transform">
-                    Read more <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                </div>
-            </div>
-        </article>
+            <h3 class="text-xl font-bold text-slate-700 mb-2">還沒有日記</h3>
+            <p class="text-slate-400 text-sm">點擊上方「新增日記」開始記錄你的生活</p>
+        </div>
 
     </main>
 
+    <!-- Add/Edit Modal -->
+    <div id="diary-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/20 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="glass-card w-full max-w-2xl p-6 rounded-3xl relative z-10">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-slate-800">✍️ 寫日記</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form id="diary-form" onsubmit="saveDiary(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">標題</label>
+                    <input type="text" id="diary-title" required
+                        class="w-full bg-white/50 border border-white/60 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                        placeholder="今天發生了什麼事...">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">心情</label>
+                    <select id="diary-mood"
+                        class="w-full bg-white/50 border border-white/60 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300">
+                        <option value="😊">😊 開心</option>
+                        <option value="😌">😌 平靜</option>
+                        <option value="😔">😔 難過</option>
+                        <option value="😤">😤 生氣</option>
+                        <option value="🤔">🤔 思考</option>
+                        <option value="😴">😴 疲憊</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">內容</label>
+                    <textarea id="diary-content" required rows="8"
+                        class="w-full bg-white/50 border border-white/60 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300 resize-none"
+                        placeholder="寫下你的想法..."></textarea>
+                </div>
+                <input type="hidden" id="diary-id">
+                <button type="submit"
+                    class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl shadow-lg shadow-emerald-200 transition-all">
+                    儲存日記
+                </button>
+            </form>
+        </div>
+    </div>
+
     <footer
         class="border-t border-white/40 bg-white/20 backdrop-blur-md py-12 text-center text-slate-400 text-sm font-serif-display italic">
-        <p>© 2025 My Notes. Writing the future.</p>
+        <p>© 2025 My Diary. Every day matters.</p>
     </footer>
 
     <script>
         lucide.createIcons();
+
+        let diaries = [];
+        let editingId = null;
+
+        // Load diaries from localStorage
+        function loadDiaries() {
+            const saved = localStorage.getItem('my_diaries');
+            diaries = saved ? JSON.parse(saved) : [];
+            renderDiaries();
+        }
+
+        function renderDiaries() {
+            const list = document.getElementById('diary-list');
+            const emptyState = document.getElementById('empty-state');
+
+            if (diaries.length === 0) {
+                list.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            list.innerHTML = diaries.map(diary => `
+                <article class="glass-card p-6 rounded-3xl hover:bg-white/80 transition-colors">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center gap-3">
+                            <span class="text-3xl">${diary.mood}</span>
+                            <div>
+                                <h2 class="text-xl font-bold text-slate-800 font-serif-display">${diary.title}</h2>
+                                <p class="text-xs text-slate-400">${diary.date}</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="generateSummary('${diary.id}')" class="text-purple-500 hover:text-purple-600 p-2" title="AI 總結">
+                                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="editDiary('${diary.id}')" class="text-emerald-500 hover:text-emerald-600 p-2">
+                                <i data-lucide="edit-2" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="deleteDiary('${diary.id}')" class="text-red-500 hover:text-red-600 p-2">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed whitespace-pre-wrap">${diary.content}</p>
+                    ${diary.summary ? `
+                        <div class="mt-4 p-4 bg-purple-50 border border-purple-200 rounded-xl">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i data-lucide="sparkles" class="w-4 h-4 text-purple-500"></i>
+                                <span class="text-xs font-bold text-purple-600 uppercase">AI 總結</span>
+                            </div>
+                            <p class="text-sm text-purple-900">${diary.summary}</p>
+                        </div>
+                    ` : ''}
+                </article>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function openModal(id = null) {
+            editingId = id;
+            const modal = document.getElementById('diary-modal');
+
+            if (id) {
+                const diary = diaries.find(d => d.id === id);
+                document.getElementById('diary-title').value = diary.title;
+                document.getElementById('diary-mood').value = diary.mood;
+                document.getElementById('diary-content').value = diary.content;
+                document.getElementById('diary-id').value = id;
+            } else {
+                document.getElementById('diary-form').reset();
+                document.getElementById('diary-id').value = '';
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('diary-modal').classList.add('hidden');
+            editingId = null;
+        }
+
+        function saveDiary(e) {
+            e.preventDefault();
+
+            const title = document.getElementById('diary-title').value;
+            const mood = document.getElementById('diary-mood').value;
+            const content = document.getElementById('diary-content').value;
+            const id = document.getElementById('diary-id').value;
+
+            if (id) {
+                // Edit existing
+                const index = diaries.findIndex(d => d.id === id);
+                diaries[index] = { ...diaries[index], title, mood, content };
+            } else {
+                // Add new
+                const newDiary = {
+                    id: Date.now().toString(),
+                    title,
+                    mood,
+                    content,
+                    date: new Date().toLocaleDateString('zh-TW', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        weekday: 'long'
+                    })
+                };
+                diaries.unshift(newDiary);
+            }
+
+            localStorage.setItem('my_diaries', JSON.stringify(diaries));
+            renderDiaries();
+            closeModal();
+        }
+
+        function editDiary(id) {
+            openModal(id);
+        }
+
+        function deleteDiary(id) {
+            if (confirm('確定要刪除這篇日記嗎？')) {
+                diaries = diaries.filter(d => d.id !== id);
+                localStorage.setItem('my_diaries', JSON.stringify(diaries));
+                renderDiaries();
+            }
+        }
+
+        async function generateSummary(id) {
+            const diary = diaries.find(d => d.id === id);
+            if (!diary) return;
+
+            // Show loading state
+            const index = diaries.findIndex(d => d.id === id);
+            diaries[index].summary = '⏳ AI 正在分析中...';
+            renderDiaries();
+
+            try {
+                // Simple client-side summarization
+                // For a real AI summary, you would need to call an API
+                const summary = await generateSimpleSummary(diary.content, diary.mood);
+
+                diaries[index].summary = summary;
+                localStorage.setItem('my_diaries', JSON.stringify(diaries));
+                renderDiaries();
+            } catch (error) {
+                diaries[index].summary = '❌ 總結生成失敗，請稍後再試';
+                renderDiaries();
+            }
+        }
+
+        async function generateSimpleSummary(content, mood) {
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Simple summarization logic
+            const sentences = content.split(/[。！？\n]+/).filter(s => s.trim().length > 0);
+            const wordCount = content.length;
+
+            let summary = '';
+
+            // Mood analysis
+            const moodText = {
+                '😊': '今天心情不錯',
+                '😌': '今天感覺平靜',
+                '😔': '今天有些低落',
+                '😤': '今天情緒激動',
+                '🤔': '今天思考了很多',
+                '😴': '今天感到疲憊'
+            }[mood] || '今天';
+
+            // Key points extraction (first and last sentence)
+            if (sentences.length >= 2) {
+                const firstSentence = sentences[0].trim().substring(0, 50);
+                const lastSentence = sentences[sentences.length - 1].trim().substring(0, 50);
+                summary = `${moodText}。${firstSentence}${firstSentence.length >= 50 ? '...' : ''}。最後${lastSentence}${lastSentence.length >= 50 ? '...' : ''}。`;
+            } else if (sentences.length === 1) {
+                summary = `${moodText}。${sentences[0].substring(0, 80)}${sentences[0].length > 80 ? '...' : ''}`;
+            } else {
+                summary = `${moodText}，記錄了 ${wordCount} 字的想法。`;
+            }
+
+            return summary;
+        }
+
+        // Initialize
+        loadDiaries();
     </script>
 </body>
 
