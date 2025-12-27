@@ -99,6 +99,23 @@
                 <a href="toolbox.html" class="text-orange-600 font-bold">工具箱</a>
                 <a href="notes.html" class="hover:text-orange-500 transition-colors">靈感筆記</a>
                 <a href="game.html" class="hover:text-orange-500 transition-colors">小遊戲</a>
+                <a href="polaroid.html" class="hover:text-orange-500 transition-colors">拍立得</a>
+            </div>
+            <button onclick="toggleMobileMenu()"
+                class="md:hidden text-slate-600 hover:text-orange-500 transition-colors">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-white/40">
+            <div class="px-4 py-4 space-y-3">
+                <a href="index.html" class="block py-2 text-slate-600 hover:text-orange-500 transition-colors">精選作品</a>
+                <a href="favorites.html"
+                    class="block py-2 text-slate-600 hover:text-orange-500 transition-colors">我的常用</a>
+                <a href="toolbox.html" class="block py-2 text-orange-600 font-bold">工具箱</a>
+                <a href="notes.html" class="block py-2 text-slate-600 hover:text-orange-500 transition-colors">靈感筆記</a>
+                <a href="game.html" class="block py-2 text-slate-600 hover:text-orange-500 transition-colors">小遊戲</a>
+                <a href="polaroid.html"
+                    class="block py-2 text-slate-600 hover:text-orange-500 transition-colors">拍立得</a>
             </div>
         </div>
     </nav>
@@ -118,7 +135,7 @@
     <main class="max-w-7xl mx-auto px-4 pb-24 fade-in">
         <div class="grid md:grid-cols-3 gap-6">
 
-            <!-- Tool 1: Unit Converter (Demo) -->
+            <!-- Tool 1: Unit Converter -->
             <div class="glass-card p-6 rounded-3xl">
                 <div class="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-500 mb-4">
                     <i data-lucide="arrow-left-right" class="w-6 h-6"></i>
@@ -126,10 +143,18 @@
                 <h3 class="font-bold text-lg text-slate-800 mb-2">單位換算</h3>
                 <p class="text-sm text-slate-400 mb-4">快速換算長度、重量與貨幣。</p>
                 <div class="space-y-3">
-                    <input type="number" placeholder="輸入數值..."
+                    <select id="unit-type"
                         class="w-full bg-white/50 border border-white/60 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300">
-                    <button
-                        class="w-full bg-orange-500 text-white py-2 rounded-xl text-sm font-bold shadow-lg shadow-orange-200">開始換算</button>
+                        <option value="length">長度 (公尺 ⇄ 英尺)</option>
+                        <option value="weight">重量 (公斤 ⇄ 磅)</option>
+                        <option value="temp">溫度 (°C ⇄ °F)</option>
+                    </select>
+                    <input type="number" id="unit-input" placeholder="輸入數值..." value="25"
+                        class="w-full bg-white/50 border border-white/60 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300">
+                    <div id="unit-result"
+                        class="text-center py-2 bg-orange-50 rounded-xl text-sm font-bold text-orange-600">
+                        結果：82.02 英尺
+                    </div>
                 </div>
             </div>
 
@@ -140,12 +165,24 @@
                 </div>
                 <h3 class="font-bold text-lg text-slate-800 mb-2">配色靈感</h3>
                 <p class="text-sm text-slate-400 mb-4">隨機生成 harmonize 色票。</p>
-                <div class="flex gap-2 mb-4 h-12">
-                    <div class="flex-1 rounded-lg bg-[#FF6B6B]"></div>
-                    <div class="flex-1 rounded-lg bg-[#4ECDC4]"></div>
-                    <div class="flex-1 rounded-lg bg-[#ffe66d]"></div>
+                <div id="color-palette" class="flex gap-2 mb-4 h-12">
+                    <div class="flex-1 rounded-lg bg-[#FF6B6B] relative group cursor-pointer"
+                        onclick="copyColor('#FF6B6B')">
+                        <span
+                            class="absolute inset-0 flex items-center justify-center text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity">#FF6B6B</span>
+                    </div>
+                    <div class="flex-1 rounded-lg bg-[#4ECDC4] relative group cursor-pointer"
+                        onclick="copyColor('#4ECDC4')">
+                        <span
+                            class="absolute inset-0 flex items-center justify-center text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity">#4ECDC4</span>
+                    </div>
+                    <div class="flex-1 rounded-lg bg-[#ffe66d] relative group cursor-pointer"
+                        onclick="copyColor('#ffe66d')">
+                        <span
+                            class="absolute inset-0 flex items-center justify-center text-slate-700 text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity">#ffe66d</span>
+                    </div>
                 </div>
-                <button
+                <button onclick="generateColors()"
                     class="w-full bg-white text-slate-600 border border-slate-200 py-2 rounded-xl text-sm font-bold hover:bg-slate-50">重新生成</button>
             </div>
 
@@ -157,10 +194,16 @@
                 <h3 class="font-bold text-lg text-slate-800 mb-2">番茄鐘</h3>
                 <p class="text-sm text-slate-400 mb-4">專注 25 分鐘，休息 5 分鐘。</p>
                 <div class="text-center py-4">
-                    <span class="text-4xl font-mono font-bold text-slate-700">25:00</span>
+                    <span id="timer-display" class="text-4xl font-mono font-bold text-slate-700">25:00</span>
                 </div>
-                <button
-                    class="w-full bg-red-500 text-white py-2 rounded-xl text-sm font-bold shadow-lg shadow-red-200">開始專注</button>
+                <div class="flex gap-2">
+                    <button id="timer-btn" onclick="toggleTimer()"
+                        class="flex-1 bg-red-500 text-white py-2 rounded-xl text-sm font-bold shadow-lg shadow-red-200">開始專注</button>
+                    <button onclick="resetTimer()"
+                        class="px-4 bg-slate-200 text-slate-600 py-2 rounded-xl text-sm font-bold hover:bg-slate-300">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    </button>
+                </div>
             </div>
 
             <!-- Tool 4: QR Code -->
@@ -170,19 +213,14 @@
                 </div>
                 <h3 class="font-bold text-lg text-slate-800 mb-2">QR Code 產生器</h3>
                 <p class="text-sm text-slate-400 mb-4">將網址轉為二維碼圖片。</p>
-                <input type="text" placeholder="https://..."
+                <input type="text" id="qr-input" placeholder="https://..."
                     class="w-full bg-white/50 border border-white/60 rounded-xl px-4 py-2 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-slate-300">
-                <button
-                    class="w-full bg-slate-800 text-white py-2 rounded-xl text-sm font-bold shadow-lg shadow-slate-300">產生</button>
-            </div>
-
-            <!-- Placeholder -->
-            <div
-                class="glass-card p-6 rounded-3xl flex flex-col items-center justify-center border-dashed border-2 bg-transparent">
-                <div class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 mb-2">
-                    <i data-lucide="plus" class="w-6 h-6"></i>
+                <div id="qr-result"
+                    class="mb-3 text-center min-h-[120px] flex items-center justify-center bg-white rounded-xl">
+                    <span class="text-slate-400 text-xs">輸入網址後點擊產生</span>
                 </div>
-                <span class="text-slate-400 text-sm font-medium">即將推出更多工具</span>
+                <button onclick="generateQR()"
+                    class="w-full bg-slate-800 text-white py-2 rounded-xl text-sm font-bold shadow-lg shadow-slate-300">產生</button>
             </div>
 
         </div>
@@ -195,6 +233,135 @@
 
     <script>
         lucide.createIcons();
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        // Unit Converter
+        const unitInput = document.getElementById('unit-input');
+        const unitType = document.getElementById('unit-type');
+        const unitResult = document.getElementById('unit-result');
+
+        function convertUnit() {
+            const value = parseFloat(unitInput.value) || 0;
+            const type = unitType.value;
+            let result = '';
+
+            switch (type) {
+                case 'length':
+                    result = `結果：${(value * 3.28084).toFixed(2)} 英尺`;
+                    break;
+                case 'weight':
+                    result = `結果：${(value * 2.20462).toFixed(2)} 磅`;
+                    break;
+                case 'temp':
+                    result = `結果：${(value * 9 / 5 + 32).toFixed(2)} °F`;
+                    break;
+            }
+            unitResult.textContent = result;
+        }
+
+        unitInput.addEventListener('input', convertUnit);
+        unitType.addEventListener('change', convertUnit);
+        convertUnit();
+
+        // Color Palette Generator
+        function generateColors() {
+            const palette = document.getElementById('color-palette');
+            const colors = [];
+
+            // Generate harmonious colors using HSL
+            const baseHue = Math.random() * 360;
+            for (let i = 0; i < 3; i++) {
+                const hue = (baseHue + i * 120) % 360;
+                const sat = 60 + Math.random() * 30;
+                const light = 50 + Math.random() * 20;
+                const hex = hslToHex(hue, sat, light);
+                colors.push(hex);
+            }
+
+            palette.innerHTML = colors.map(color => `
+                <div class="flex-1 rounded-lg relative group cursor-pointer" style="background-color: ${color}" onclick="copyColor('${color}')">
+                    <span class="absolute inset-0 flex items-center justify-center text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity mix-blend-difference">${color}</span>
+                </div>
+            `).join('');
+        }
+
+        function hslToHex(h, s, l) {
+            l /= 100;
+            const a = s * Math.min(l, 1 - l) / 100;
+            const f = n => {
+                const k = (n + h / 30) % 12;
+                const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+                return Math.round(255 * color).toString(16).padStart(2, '0');
+            };
+            return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
+        }
+
+        function copyColor(color) {
+            navigator.clipboard.writeText(color);
+            alert(`已複製顏色：${color}`);
+        }
+
+        // Pomodoro Timer
+        let timerInterval = null;
+        let timeLeft = 25 * 60; // 25 minutes in seconds
+        let isRunning = false;
+
+        function toggleTimer() {
+            const btn = document.getElementById('timer-btn');
+            if (isRunning) {
+                clearInterval(timerInterval);
+                btn.textContent = '繼續';
+                isRunning = false;
+            } else {
+                timerInterval = setInterval(updateTimer, 1000);
+                btn.textContent = '暫停';
+                isRunning = true;
+            }
+        }
+
+        function updateTimer() {
+            if (timeLeft > 0) {
+                timeLeft--;
+                displayTime();
+            } else {
+                clearInterval(timerInterval);
+                alert('🎉 番茄鐘時間到！休息一下吧！');
+                resetTimer();
+            }
+        }
+
+        function displayTime() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer-display').textContent =
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 25 * 60;
+            isRunning = false;
+            displayTime();
+            document.getElementById('timer-btn').textContent = '開始專注';
+        }
+
+        // QR Code Generator
+        function generateQR() {
+            const url = document.getElementById('qr-input').value;
+            const result = document.getElementById('qr-result');
+
+            if (!url) {
+                alert('請輸入網址');
+                return;
+            }
+
+            // Using QR Code API
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
+            result.innerHTML = `<img src="${qrUrl}" alt="QR Code" class="mx-auto">`;
+        }
     </script>
 </body>
 
